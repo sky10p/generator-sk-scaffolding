@@ -65,7 +65,7 @@ module.exports = class extends Generator {
         message: "Which programming language would you like to use?",
         choices: ["Typescript"],
         default: "Typescript"
-      }
+      },
 
       /* {
         type: "confirm",
@@ -73,12 +73,12 @@ module.exports = class extends Generator {
         message: "Is this an npm project? (semantic-release will be added)",
         default: true
       }, */
-      /* {
+      {
         type: "confirm",
         name: "isMonorepo",
         message: "Is this a monorepo?",
         default: false
-      }, */
+      }
     ];
 
     return this.prompt(prompts).then(props => {
@@ -101,6 +101,13 @@ module.exports = class extends Generator {
       this.destinationPath("package.json"),
       this.answers
     );
+
+    if (this.answers.isMonorepo) {
+      const rootPackagePath = this.destinationPath("package.json");
+      const rootPackage = this.fs.readJSON(rootPackagePath);
+      rootPackage.workspaces = ["packages/*"];
+      this.fs.writeJSON(rootPackagePath, rootPackage);
+    }
   }
 
   writingReadme() {
@@ -137,16 +144,38 @@ module.exports = class extends Generator {
     );
   }
 
+  writingTsMonorepoConfig() {
+    this.fs.copyTpl(
+      this.templatePath("node/.gitignore"),
+      this.destinationPath(".gitignore")
+    );
+    this.fs.write(this.destinationPath("packages/.gitkeep", ""), "");
+    this.fs.copyTpl(
+      this.templatePath("typescript/.github/workflows/tests.yaml"),
+      this.destinationPath(".github/workflows/tests.yaml")
+    );
+    this.fs.copyTpl(
+      this.templatePath("typescript/tsconfig.json"),
+      this.destinationPath("tsconfig.json")
+    );
+  }
+
   writing() {
     this.writingRootPackageJson();
 
     if (this.answers.programmingLanguage === "Typescript") {
-      this.writingTsSimpleRepoConfig();
+      if (this.answers.isMonorepo) {
+        this.writingTsMonorepoConfig();
+      } else {
+        this.writingTsSimpleRepoConfig();
+      }
     }
 
     if (this.answers.addReadme) {
       this.writingReadme();
     }
+
+    this.config.set(this.answers);
   }
 
   install() {
