@@ -1,0 +1,16 @@
+{
+  "name": "<%= projectName %>",
+  "version": "<%= projectVersion %>",
+  "description": "<%= projectDescription %>",
+  "main": "index.js",
+  "author": "<%= projectAuthor %>",
+  "license": "<%= license %>",
+  "repository": {
+    "type": "git",
+    "url": "<%= githubRepository %>"
+  },
+  "volta": {
+    "node": "<%= nodeVersion %>",
+    "yarn": "<%= yarnVersion %>"
+  }
+}

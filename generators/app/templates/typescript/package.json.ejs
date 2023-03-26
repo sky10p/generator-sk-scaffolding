@@ -1,0 +1,28 @@
+{
+  "name": "<%= projectName %>",
+  "version": "<%= projectVersion %>",
+  "description": "<%= projectDescription %>",
+  "main": "index.js",
+  "author": "<%= projectAuthor %>",
+  "license": "<%= license %>",
+  "repository": {
+    "type": "git",
+    "url": "<%= githubRepository %>"
+  },
+    "scripts": {
+      "build": "tsc",
+      "start": "node build/index.js",
+      "start:dev": "ts-node-dev -r dotenv/config ./src/index.ts",
+       <% if (addJest) { %>
+      "test:ci": "jest",
+      "test:dev": "jest"
+      <% } %>
+      
+    },
+    "volta": {
+      "node": "<%= nodeVersion %>",
+      "yarn": "<%= yarnVersion %>"
+    }
+    "author": "",
+    "license": "ISC",
+  }
