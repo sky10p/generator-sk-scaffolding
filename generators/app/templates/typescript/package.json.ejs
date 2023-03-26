@@ -13,16 +13,13 @@
       "build": "tsc",
       "start": "node build/index.js",
       "start:dev": "ts-node-dev -r dotenv/config ./src/index.ts",
-       <% if (addJest) { %>
       "test:ci": "jest",
       "test:dev": "jest"
-      <% } %>
       
     },
     "volta": {
       "node": "<%= nodeVersion %>",
       "yarn": "<%= yarnVersion %>"
-    }
-    "author": "",
-    "license": "ISC",
+    },
+    "license": "ISC"
   }

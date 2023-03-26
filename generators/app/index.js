@@ -56,27 +56,16 @@ module.exports = class extends Generator {
       {
         type: "input",
         name: "githubRepository",
-        message: "What is the GitHub repository URL for this project?",
-        default: "",
-        validate: input => {
-          if (!input) {
-            return "Please provide a valid GitHub repository URL.";
-          }
-
-          const pattern = /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(\.git)?$/;
-          return (
-            pattern.test(input) ||
-            "Please provide a valid GitHub repository URL."
-          );
-        }
+        message: "What is the git repository URL for this project?",
+        default: ""
       },
       {
         type: "list",
         name: "programmingLanguage",
         message: "Which programming language would you like to use?",
-        choices: ["TypeScript"],
-        default: "TypeScript"
-      },
+        choices: ["Typescript"],
+        default: "Typescript"
+      }
 
       /* {
         type: "confirm",
@@ -90,12 +79,6 @@ module.exports = class extends Generator {
         message: "Is this a monorepo?",
         default: false
       }, */
-      {
-        type: "confirm",
-        name: "addGithubAction",
-        message: "Add a GitHub Action?",
-        default: true
-      }
     ];
 
     return this.prompt(prompts).then(props => {
@@ -110,7 +93,7 @@ module.exports = class extends Generator {
   writingRootPackageJson() {
     let originalPath = "general/package.json";
     if (this.answers.programmingLanguage === "Typescript") {
-      originalPath = "typescript.package.json.ejs";
+      originalPath = "typescript/package.json.ejs";
     }
 
     this.fs.copyTpl(
@@ -145,6 +128,10 @@ module.exports = class extends Generator {
       this.destinationPath("src/index.ts")
     );
     this.fs.copyTpl(
+      this.templatePath("typescript/.github/workflows/tests.yaml"),
+      this.destinationPath(".github/workflows/tests.yaml")
+    );
+    this.fs.copyTpl(
       this.templatePath("typescript/tsconfig.json"),
       this.destinationPath("tsconfig.json")
     );
@@ -164,17 +151,19 @@ module.exports = class extends Generator {
 
   install() {
     if (this.answers.programmingLanguage === "Typescript") {
-      this.addDevDependencies([
-        "@types/jest",
-        "@types/node",
-        "dotenv",
-        "jest",
-        "ts-jest",
-        "ts-node",
-        "ts-node-dev",
-        "typescript"
-      ]);
-      this.yarnInstall();
+      this.yarnInstall(
+        [
+          "@types/jest",
+          "@types/node",
+          "dotenv",
+          "jest",
+          "ts-jest",
+          "ts-node",
+          "ts-node-dev",
+          "typescript"
+        ],
+        { dev: true }
+      );
     }
   }
 };
