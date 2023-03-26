@@ -1,4 +1,4 @@
-# generator-sk-scaffolding [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-sk-scaffolding 
 > A personal Yeoman generator for scaffolding versatile projects with support for multiple languages, technologies, and configurations, tailored to my specific requirements and preferences.
 
 ## Installation
@@ -7,7 +7,8 @@ First, install [Yeoman](http://yeoman.io) and generator-sk-scaffolding using [np
 
 ```bash
 npm install -g yo
-npm install -g generator-sk-scaffolding
+yarn build
+npm link
 ```
 
 Then generate your new project:
@@ -26,13 +27,3 @@ yo sk-scaffolding
 ## License
 
 Apache-2.0 © [Pablo Guijarro]()
-
-
-[npm-image]: https://badge.fury.io/js/generator-sk-scaffolding.svg
-[npm-url]: https://npmjs.org/package/generator-sk-scaffolding
-[travis-image]: https://travis-ci.com/sky10p/generator-sk-scaffolding.svg?branch=master
-[travis-url]: https://travis-ci.com/sky10p/generator-sk-scaffolding
-[daviddm-image]: https://david-dm.org/sky10p/generator-sk-scaffolding.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/sky10p/generator-sk-scaffolding
-[coveralls-image]: https://coveralls.io/repos/sky10p/generator-sk-scaffolding/badge.svg
-[coveralls-url]: https://coveralls.io/r/sky10p/generator-sk-scaffolding
